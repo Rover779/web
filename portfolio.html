@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Rover Sun</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Configuration & Custom Styles -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        stone: {
+                            50: '#fafaf9',
+                            100: '#f5f5f4',
+                            200: '#e7e5e4',
+                            800: '#292524',
+                            900: '#1c1917',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #fafaf9; /* stone-50 */
+            color: #1c1917; /* stone-900 */
+        }
+        
+        /* Masonry Grid Styles */
+        .masonry-grid {
+            column-count: 1;
+            column-gap: 2rem;
+        }
+        
+        @media (min-width: 768px) {
+            .masonry-grid { column-count: 2; }
+        }
+        
+        @media (min-width: 1200px) {
+            .masonry-grid { column-count: 3; }
+        }
+        
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 2rem;
+            transform: translateZ(0);
+        }
+
+        /* Project Card Styles */
+        .project-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .project-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 2rem;
+        }
+        
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        /* Filter Button Styles */
+        .filter-btn {
+            padding: 8px 16px;
+            border: 1px solid #e7e5e4;
+            background: white;
+            color: #1c1917;
+            border-radius: 9999px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn:hover {
+            background: #1c1917;
+            color: white;
+            border-color: #1c1917;
+        }
+        
+        .filter-btn.active {
+            background: #1c1917;
+            color: white;
+            border-color: #1c1917;
+        }
+
+        /* Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
+        .delay-500 { transition-delay: 500ms; }
+    </style>
+</head>
+<body class="antialiased selection:bg-stone-900 selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full top-0 z-50 bg-stone-50/80 backdrop-blur-md border-b border-stone-200/50 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="font-serif text-xl font-semibold tracking-tight">Rover.</a>
+            <div class="hidden md:flex space-x-8 text-sm font-medium text-stone-600">
+                <a href="index.html#about" class="hover:text-stone-900 transition-colors">About</a>
+                <a href="index.html#work" class="hover:text-stone-900 transition-colors">Experience</a>
+                <a href="services.html" class="hover:text-stone-900 transition-colors">Services</a>
+                <a href="portfolio.html" class="hover:text-stone-900 transition-colors font-semibold border-b-2 border-stone-900">Portfolio</a>
+                <a href="blog.html" class="hover:text-stone-900 transition-colors">Blog</a>
+                <a href="index.html#contact" class="hover:text-stone-900 transition-colors">Contact</a>
+            </div>
+            <button class="md:hidden text-stone-900">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <!-- Background decoration -->
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-stone-200/50 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"></div>
+        <div class="absolute top-1/3 right-1/4 w-96 h-96 bg-stone-300/40 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000"></div>
+
+        <div class="max-w-5xl mx-auto px-6 text-center relative z-10">
+            <span class="block text-sm font-medium tracking-widest uppercase text-stone-500 mb-6 reveal">Selected Works</span>
+            <h1 class="font-serif text-6xl md:text-8xl font-bold tracking-tight leading-[1.1] text-stone-900 reveal delay-100">
+                Excellence in <span class="italic font-light text-stone-500">action.</span>
+            </h1>
+            <p class="mt-8 text-lg md:text-xl text-stone-600 max-w-2xl mx-auto font-light leading-relaxed reveal delay-200">
+                A curated collection of successful events, projects, and collaborations that showcase precision, elegance, and flawless execution.
+            </p>
+            <div class="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6 reveal delay-300">
+                <a href="#projects" class="px-8 py-4 bg-stone-900 text-white rounded-full text-sm font-medium hover:bg-stone-800 hover:scale-105 transition-all duration-300 shadow-lg shadow-stone-900/20">
+                    View Projects
+                </a>
+                <a href="index.html#contact" class="px-8 py-4 bg-transparent text-stone-900 rounded-full text-sm font-medium border border-stone-300 hover:border-stone-900 transition-all duration-300">
+                    Get in Touch
+                </a>
+            </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce opacity-50">
+            <span class="text-xs uppercase tracking-widest mb-2 font-medium">Scroll</span>
+            <i data-lucide="arrow-down" class="w-4 h-4"></i>
+        </div>
+    </header>
+
+    <!-- Portfolio Section -->
+    <section id="projects" class="py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 reveal">
+                <span class="text-sm font-medium tracking-widest uppercase text-stone-500 mb-4 block">Project Categories</span>
+                <h2 class="font-serif text-5xl font-bold text-stone-900 mb-8">Showcasing <span class="italic font-light">diverse</span> excellence.</h2>
+                
+                <!-- Filter Buttons -->
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button class="filter-btn active" data-filter="all">All Projects</button>
+                    <button class="filter-btn" data-filter="government">Government</button>
+                    <button class="filter-btn" data-filter="corporate">Corporate</button>
+                    <button class="filter-btn" data-filter="cultural">Cultural</button>
+                    <button class="filter-btn" data-filter="media">Media</button>
+                </div>
+            </div>
+
+            <!-- Masonry Grid -->
+            <div class="masonry-grid">
+                
+                <!-- Project 1: Government Delegation -->
+                <div class="masonry-item reveal project-card" data-category="government">
+                    <div class="relative overflow-hidden rounded-2xl">
+                        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2000&auto=format&fit=crop" alt="Government Delegation" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                        <div class="project-overlay">
+                            <h3 class="font-serif text-2xl font-semibold text-white mb-2">Government Delegation Hosting</h3>
+                            <p class="text-stone-200 text-sm font-light">Zhongguancun Science City</p>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="font-serif text-xl font-semibold text-stone-900">High-Level Government Visits</h4>
+                            <span class="px-3 py-1 bg-stone-900 text-white text-xs font-medium rounded-full">Government</span>
+                        </div>
+                        <p class="text-stone-600 font-light leading-relaxed mb-4">
+                            Successfully hosted over 1,100 government delegation visits annually at the City Brain Exhibition Center, maintaining a 95% satisfaction rate with zero operational oversights.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4 text-sm text-stone-500">
+                            <div>
+                                <span class="font-medium">Duration:</span><br>
+                                <span class="text-stone-600">Ongoing</span>
+                            </div>
+                            <div>
+                                <span class="font-medium">Location:</span><br>
+                                <span class="text-stone-600">Beijing, China</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2: Corporate Gala -->
+                <div class="masonry-item reveal delay-100 project-card" data-category="corporate">
+                    <div class="relative overflow-hidden rounded-2xl">
+                        <img src="https://images.unsplash.com/photo-1515169067868-5387ec356754?q=80&w=2000&auto=format&fit=crop" alt="Corporate Gala" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                        <div class="project-overlay">
+                            <h3 class="font-serif text-2xl font-semibold text-white mb-2">Corporate Gala Event</h3>
+                            <p class="text-stone-200 text-sm font-light">Dongsheng BoZhan</p>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="font-serif text-xl font-semibold text-stone-900">Annual Corporate Gala</h4>
+                            <span class="px-3 py-1 bg-stone-900 text-white text-xs font-medium rounded-full">Corporate</span>
+                        </div>
+                        <p class="text-stone-600 font-light leading-relaxed mb-4">
+                            Orchestrated and hosted the Dongsheng BoZhan Annual Meeting, a high-profile corporate gala attended by industry leaders and VIP guests.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4 text-sm text-stone-500">
+                            <div>
+                                <span class="font-medium">Attendees:</span><br>
+                                <span class="text-stone-600">200+ VIP guests</span>
+                            </div>
+                            <div>
+                                <span class="font-medium">Role:</span><br>
+                                <span class="text-stone-600">Host & Coordinator</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3: Technology Exhibition -->
+                <div class="masonry-item reveal delay-200 project-card" data-category="government">
+                    <div class="relative overflow-hidden rounded-2xl">
+                        <img src="https://images.unsplash.com/photo-1531297484455-216044584629?q=80&w=2000&auto=format&fit=crop" alt="Technology Exhibition" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                        <div class="project-overlay">
+                            <h3 class="font-serif text-2xl font-semibold text-white mb-2">Technology Exhibition</h3>
+                            <p class="text-stone-200 text-sm font-light">Urban Brain Center</p>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="font-serif text-xl font-semibold text-stone-900">Smart City Technology Showcase</h4>
+                            <span class="px-3 py-1 bg-stone-900 text-white text-xs font-medium rounded-full">Government</span>
+                        </div>
+                        <p class="text-stone-600 font-light leading-relaxed mb-4">
+                            Managed and presented cutting-edge smart city technologies to government officials and international delegations, showcasing China's technological advancements.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4 text-sm text-stone-500">
+                            <div>
+                                <span class="font-medium">Technology:</span><br>
+                                <span class="text-stone-600">AI & IoT Solutions</span>
+                            </div>
+                            <div>
+                                <span class="font-medium">Visitors:</span><br>
+                                <span class="text-stone-600">1,100+ annually</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4: Music Festival -->
+                <div class="masonry-item reveal delay-300 project-card" data-category="cultural">
+                    <div class="relative overflow-hidden rounded-2xl">
+                        <img src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?q=80&w=2000&auto=format&fit=crop" alt="Music Festival" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                        <div class="project-overlay">
+                            <h3 class="font-serif text-2xl font-semibold text-white mb-2">Dongsheng Music Festival</h3>
+                            <p class="text-stone-200 text-sm font-light">Live Event</p>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="font-serif text-xl font-semibold text-stone-900">Live Music Festival Hosting</h4>
+                            <span class="px-3 py-1 bg-stone-900 text-white text-xs font-medium rounded-full">Cultural</span>
+                        </div>
+                        <p class="text-stone-600 font-light leading-relaxed mb-4">
+                            Hosted the Dongsheng Music Festival, managing live presentations and engaging with diverse audiences in a dynamic entertainment environment.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4 text-sm text-stone-500">
+                            <div>
+                                <span class="font-medium">Audience:</span><br>
+                                <span class="text-stone-600">500+ attendees</span>
+                            </div>
+                            <div>
+                                <span class="font-medium">Duration:</span><br>
+                                <span class="text-stone-600">3-day event</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5: Corporate Conference -->
+                <div class="masonry-item reveal delay-400 project-card" data-category="corporate">
+                    <div class="relative overflow-hidden rounded-2xl">
+                        <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2000&auto=format&fit=crop" alt="Corporate Conference" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                        <div class="project-overlay">
+                            <h3 class="font-serif text-2xl font-semibold text-white mb-2">Corporate Conference</h3>
+                            <p class="text-stone-200 text-sm font-light">Business Summit</p>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="font-serif text-xl font-semibold text-stone-900">International Business Conference</h4>
+                            <span class="px-3 py-1 bg-stone-900 text-white text-xs font-medium rounded-full">Corporate</span>
+                        </div>
+                        <p class="text-stone-600 font-light leading-relaxed mb-4">
+                            Coordinated and hosted international business conferences, facilitating networking and presentations for corporate leaders and industry experts.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4 text-sm text-stone-500">
+                            <div>
+                                <span class="font-medium">Participants:</span><br>
+                                <span class="text-stone-600">150+ executives</span>
+                            </div>
+                            <div>
+                                <span class="font-medium">Countries:</span><br>
+                                <span class="text-stone-600">15+ nations</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 6: Theater Performance -->
+                <div class="masonry-item reveal delay-500 project-card" data-category="cultural">
+                    <div class="relative overflow-hidden rounded-2xl">
+                        <img src="https://images.unsplash.com/photo-1507676184212-d0330a156f97?q=80&w=2000&auto=format&fit=crop" alt="Theater Performance" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                        <div class="project-overlay">
+                            <h3 class="font-serif text-2xl font-semibold text-white mb-2">Theater Performance</h3>
+                            <p class="text-stone-200 text-sm font-light">Tianjin People's Art Theatre</p>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="font-serif text-xl font-semibold text-stone-900">Cultural Theater Presentation</h4>
+                            <span class="px-3 py-1 bg-stone-900 text-white text-xs font-medium rounded-full">Cultural</span>
+                        </div>
+                        <p class="text-stone-600 font-light leading-relaxed mb-4">
+                            Performed script reading and presentation at Tianjin People's Art Theatre, showcasing cultural arts and theatrical excellence.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4 text-sm text-stone-500">
+                            <div>
+                                <span class="font-medium">Venue:</span><br>
+                                <span class="text-stone-600">Tianjin People's Art Theatre</span>
+                            </div>
+                            <div>
+                                <span class="font-medium">Performance:</span><br>
+                                <span class="text-stone-600">Script Reading</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 7: Product Launch -->
+                <div class="masonry-item reveal project-card" data-category="corporate">
+                    <div class="relative overflow-hidden rounded-2xl">
+                        <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=2000&auto=format&fit=crop" alt="Product Launch" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                        <div class="project-overlay">
+                            <h3 class="font-serif text-2xl font-semibold text-white mb-2">Product Launch Event</h3>
+                            <p class="text-stone-200 text-sm font-light">Technology Showcase</p>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="font-serif text-xl font-semibold text-stone-900">Technology Product Launch</h4>
+                            <span class="px-3 py-1 bg-stone-900 text-white text-xs font-medium rounded-full">Corporate</span>
+                        </div>
+                        <p class="text-stone-600 font-light leading-relaxed mb-4">
+                            Orchestrated high-profile product launch events for technology companies, managing media relations and VIP guest coordination.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4 text-sm text-stone-500">
+                            <div>
+                                <span class="font-medium">Media Coverage:</span><br>
+                                <span class="text-stone-600">National & International</span>
+                            </div>
+                            <div>
+                                <span class="font-medium">Products:</span><br>
+                                <span class="text-stone-600">Tech & Innovation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 8: Broadcast Coordination -->
+                <div class="masonry-item reveal delay-100 project-card" data-category="media">
+                    <div class="relative overflow-hidden rounded-2xl">
+                        <img src="https://images.unsplash.com/photo-1507386838099-3e927798ac8e?q=80&w=2000&auto=format&fit=crop" alt="Broadcast Coordination" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                        <div class="project-overlay">
+                            <h3 class="font-serif text-2xl font-semibold text-white mb-2">Broadcast Coordination</h3>
+                            <p class="text-stone-200 text-sm font-light">Media Management</p>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="font-serif text-xl font-semibold text-stone-900">Live Broadcast Management</h4>
+                            <span class="px-3 py-1 bg-stone-900 text-white text-xs font-medium rounded-full">Media</span>
+                        </div>
+                        <p class="text-stone-600 font-light leading-relaxed mb-4">
+                            Coordinated live broadcasting for major events, ensuring seamless media coverage and professional presentation standards.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4 text-sm text-stone-500">
+                            <div>
+                                <span class="font-medium">Coverage:</span><br>
+                                <span class="text-stone-600">Live Streaming</span>
+                            </div>
+                            <div>
+                                <span class="font-medium">Audience:</span><br>
+                                <span class="text-stone-600">Millions</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 9: International Summit -->
+                <div class="masonry-item reveal delay-200 project-card" data-category="government">
+                    <div class="relative overflow-hidden rounded-2xl">
+                        <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?q=80&w=2000&auto=format&fit=crop" alt="International Summit" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                        <div class="project-overlay">
+                            <h3 class="font-serif text-2xl font-semibold text-white mb-2">International Summit</h3>
+                            <p class="text-stone-200 text-sm font-light">Diplomatic Event</p>
+                        </div>
+                    </div>
+                    <div class="mt-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="font-serif text-xl font-semibold text-stone-900">International Diplomatic Summit</h4>
+                            <span class="px-3 py-1 bg-stone-900 text-white text-xs font-medium rounded-full">Government</span>
+                        </div>
+                        <p class="text-stone-600 font-light leading-relaxed mb-4">
+                            Hosted international diplomatic summits, managing protocol and ensuring cultural sensitivity for high-level government delegations.
+                        </p>
+                        <div class="grid grid-cols-2 gap-4 text-sm text-stone-500">
+                            <div>
+                                <span class="font-medium">Delegations:</span><br>
+                                <span class="text-stone-600">20+ Countries</span>
+                            </div>
+                            <div>
+                                <span class="font-medium">Protocol:</span><br>
+                                <span class="text-stone-600">Diplomatic Standards</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="py-32 bg-stone-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20 reveal">
+                <span class="text-sm font-medium tracking-widest uppercase text-stone-500 mb-4 block">By the Numbers</span>
+                <h2 class="font-serif text-5xl font-bold text-stone-900">Measurable <span class="italic font-light">success.</span></h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                
+                <!-- Stat 1 -->
+                <div class="reveal bg-white rounded-2xl p-8 shadow-sm border border-stone-200 text-center">
+                    <div class="w-16 h-16 bg-stone-900 rounded-xl flex items-center justify-center mx-auto mb-6">
+                        <i data-lucide="users" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <div class="text-4xl font-bold text-stone-900 mb-2">1,100+</div>
+                    <div class="text-stone-600 font-light">Government Visits</div>
+                    <div class="text-sm text-stone-400 mt-2">Annually hosted</div>
+                </div>
+
+                <!-- Stat 2 -->
+                <div class="reveal delay-100 bg-white rounded-2xl p-8 shadow-sm border border-stone-200 text-center">
+                    <div class="w-16 h-16 bg-stone-900 rounded-xl flex items-center justify-center mx-auto mb-6">
+                        <i data-lucide="calendar" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <div class="text-4xl font-bold text-stone-900 mb-2">300+</div>
+                    <div class="text-stone-600 font-light">Events Executed</div>
+                    <div class="text-sm text-stone-400 mt-2">Successfully completed</div>
+                </div>
+
+                <!-- Stat 3 -->
+                <div class="reveal delay-200 bg-white rounded-2xl p-8 shadow-sm border border-stone-200 text-center">
+                    <div class="w-16 h-16 bg-stone-900 rounded-xl flex items-center justify-center mx-auto mb-6">
+                        <i data-lucide="thumbs-up" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <div class="text-4xl font-bold text-stone-900 mb-2">95%</div>
+                    <div class="text-stone-600 font-light">Satisfaction Rate</div>
+                    <div class="text-sm text-stone-400 mt-2">Client approval</div>
+                </div>
+
+                <!-- Stat 4 -->
+                <div class="reveal delay-300 bg-white rounded-2xl p-8 shadow-sm border border-stone-200 text-center">
+                    <div class="w-16 h-16 bg-stone-900 rounded-xl flex items-center justify-center mx-auto mb-6">
+                        <i data-lucide="dollar-sign" class="w-8 h-8 text-white"></i>
+                    </div>
+                    <div class="text-4xl font-bold text-stone-900 mb-2">RMB 81M</div>
+                    <div class="text-stone-600 font-light">Project Value</div>
+                    <div class="text-sm text-stone-400 mt-2">Successfully delivered</div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-32 bg-white">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="text-center mb-20 reveal">
+                <span class="text-sm font-medium tracking-widest uppercase text-stone-500 mb-4 block">Client Feedback</span>
+                <h2 class="font-serif text-5xl font-bold text-stone-900">What <span class="italic font-light">clients</span> say.</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Testimonial 1 -->
+                <div class="reveal bg-stone-50 rounded-2xl p-8 border border-stone-200">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 bg-stone-900 rounded-full flex items-center justify-center">
+                            <i data-lucide="quote" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-serif text-lg font-semibold text-stone-900">Ministry of Science & Technology</h4>
+                            <p class="text-stone-500 text-sm">Senior Official</p>
+                        </div>
+                    </div>
+                    <p class="text-stone-600 font-light leading-relaxed italic">
+                        "Rover's hosting of our delegation visit was exemplary. His professionalism, attention to detail, and cultural sensitivity made our experience truly outstanding. The 95% satisfaction rate speaks volumes about his capabilities."
+                    </p>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="reveal delay-100 bg-stone-50 rounded-2xl p-8 border border-stone-200">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-12 h-12 bg-stone-900 rounded-full flex items-center justify-center">
+                            <i data-lucide="quote" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-serif text-lg font-semibold text-stone-900">Dongsheng BoZhan Group</h4>
+                            <p class="text-stone-500 text-sm">CEO</p>
+                        </div>
+                    </div>
+                    <p class="text-stone-600 font-light leading-relaxed italic">
+                        "The annual gala under Rover's coordination was our most successful event yet. His ability to manage complex logistics while maintaining elegance and professionalism is unmatched. Our guests were thoroughly impressed."
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-32 bg-stone-900 text-stone-50">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            <h2 class="font-serif text-5xl md:text-6xl font-bold mb-8 text-white">Ready to create your <span class="italic font-light text-stone-400">next success story?</span></h2>
+            <p class="text-xl text-stone-300 font-light mb-12 max-w-3xl mx-auto">
+                Whether you need hosting for a government delegation, coordination for a corporate event, or management for a cultural festival, I'm ready to bring excellence to your project.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                <a href="index.html#contact" class="px-8 py-4 bg-white text-stone-900 rounded-full text-sm font-medium hover:bg-stone-100 transition-all duration-300 shadow-lg shadow-white/20">
+                    Get in Touch
+                </a>
+                <a href="services.html" class="px-8 py-4 bg-transparent text-white rounded-full text-sm font-medium border border-stone-700 hover:border-white transition-all duration-300">
+                    View Services
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-stone-900 text-stone-500 py-8 border-t border-stone-800">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-sm">&copy; 2026 SUN Ruwan (Rover). All rights reserved.</p>
+            <div class="flex gap-6 text-sm">
+                <a href="#" class="hover:text-stone-300 transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-stone-300 transition-colors">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Initialize Scripts -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-sm', 'py-3');
+                navbar.classList.remove('py-4');
+            } else {
+                navbar.classList.remove('shadow-sm', 'py-3');
+                navbar.classList.add('py-4');
+            }
+        });
+
+        // Portfolio Filter Functionality
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Update active button
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                const filterValue = button.getAttribute('data-filter');
+
+                // Filter projects
+                projectCards.forEach(card => {
+                    if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+                        card.style.display = 'block';
+                        card.style.animationDelay = '0ms';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Intersection Observer for scroll animations (Reveal effect)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Run once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach((element) => {
+            observer.observe(element);
+        });
+    </script>
+</body>
+</html>

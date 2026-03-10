@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio | Rover Sun</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Configuration & Custom Styles -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        stone: {
+                            50: '#fafaf9',
+                            100: '#f5f5f4',
+                            200: '#e7e5e4',
+                            800: '#292524',
+                            900: '#1c1917',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Masonry and Animation Styles */
+        body {
+            background-color: #fafaf9; /* stone-50 */
+            color: #1c1917; /* stone-900 */
+        }
+        
+        .masonry-grid {
+            column-count: 1;
+            column-gap: 1.5rem;
+        }
+        
+        @media (min-width: 640px) {
+            .masonry-grid { column-count: 2; }
+        }
+        
+        @media (min-width: 1024px) {
+            .masonry-grid { column-count: 3; }
+        }
+        
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 1.5rem;
+            transform: translateZ(0); /* Hardware acceleration */
+        }
+
+        /* Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+    </style>
+</head>
+<body class="antialiased selection:bg-stone-900 selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full top-0 z-50 bg-stone-50/80 backdrop-blur-md border-b border-stone-200/50 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="font-serif text-xl font-semibold tracking-tight">Rover.</a>
+            <div class="hidden md:flex space-x-8 text-sm font-medium text-stone-600">
+                <a href="#about" class="hover:text-stone-900 transition-colors">About</a>
+                <a href="#work" class="hover:text-stone-900 transition-colors">Experience</a>
+                <a href="services.html" class="hover:text-stone-900 transition-colors">Services</a>
+                <a href="portfolio.html" class="hover:text-stone-900 transition-colors">Portfolio</a>
+                <a href="blog.html" class="hover:text-stone-900 transition-colors">Blog</a>
+                <a href="#contact" class="hover:text-stone-900 transition-colors">Contact</a>
+            </div>
+            <button class="md:hidden text-stone-900">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+        <!-- Subtle background decoration -->
+        <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-stone-200/50 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"></div>
+        <div class="absolute top-1/3 right-1/4 w-96 h-96 bg-stone-300/40 rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob animation-delay-2000"></div>
+
+        <div class="max-w-5xl mx-auto px-6 text-center relative z-10">
+            <span class="block text-sm font-medium tracking-widest uppercase text-stone-500 mb-6 reveal">Host & Operations Manager</span>
+            <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl font-bold tracking-tight leading-[1.1] text-stone-900 reveal delay-100">
+                Bridging <span class="italic font-light text-stone-500">communication</span><br> and technology.
+            </h1>
+            <p class="mt-8 text-lg md:text-xl text-stone-600 max-w-2xl mx-auto font-light leading-relaxed reveal delay-200">
+                I specialize in high-level hosting, operations management, and emerging technologies, delivering flawless execution for exclusive government and enterprise events.
+            </p>
+            <div class="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6 reveal delay-300">
+                <a href="#work" class="px-8 py-4 bg-stone-900 text-white rounded-full text-sm font-medium hover:bg-stone-800 hover:scale-105 transition-all duration-300 shadow-lg shadow-stone-900/20">
+                    Explore My Experience
+                </a>
+                <a href="#contact" class="px-8 py-4 bg-transparent text-stone-900 rounded-full text-sm font-medium border border-stone-300 hover:border-stone-900 transition-all duration-300">
+                    Get in Touch
+                </a>
+            </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center animate-bounce opacity-50">
+            <span class="text-xs uppercase tracking-widest mb-2 font-medium">Scroll</span>
+            <i data-lucide="arrow-down" class="w-4 h-4"></i>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="py-32 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                <div class="lg:col-span-5 reveal">
+                    <div class="relative rounded-3xl overflow-hidden aspect-[4/5] shadow-2xl">
+                        <!-- Abstract/Professional Aesthetic Image -->
+                        <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=2564&auto=format&fit=crop" alt="Abstract aesthetic" class="absolute inset-0 w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-stone-900/10"></div>
+                    </div>
+                </div>
+                <div class="lg:col-span-7 lg:pl-12 reveal delay-100">
+                    <h2 class="font-serif text-4xl md:text-5xl font-bold mb-8 text-stone-900">Precision in operations, elegance in <span class="italic font-light">presentation</span>.</h2>
+                    <div class="space-y-6 text-lg text-stone-600 font-light leading-relaxed">
+                        <p>
+                            With a BFA in Broadcasting and Hosting Art and currently pursuing an MA in Emerging Technology for Future Workforce at The Education University of Hong Kong, I bring a unique blend of refined communication skills and forward-thinking tech literacy to every project.
+                        </p>
+                        <p>
+                            As an Operations Manager at Zhongguancun Science City Urban Brain, I successfully managed the City Brain Exhibition Center, hosting over 1,100 government visits annually—including high-level delegations—maintaining a 95% satisfaction rate with zero operational oversights. From orchestrating large-scale corporate galas to delivering RMB 81M complex operational projects, I thrive on seamless execution.
+                        </p>
+                    </div>
+                    
+                    <div class="mt-12 grid grid-cols-2 md:grid-cols-3 gap-8 border-t border-stone-200 pt-12">
+                        <div>
+                            <h4 class="font-serif text-2xl font-semibold text-stone-900 mb-2">1,100+</h4>
+                            <p class="text-sm text-stone-500 uppercase tracking-wider">Annual Govt Visits</p>
+                        </div>
+                        <div>
+                            <h4 class="font-serif text-2xl font-semibold text-stone-900 mb-2">300+</h4>
+                            <p class="text-sm text-stone-500 uppercase tracking-wider">Events Executed</p>
+                        </div>
+                        <div>
+                            <h4 class="font-serif text-2xl font-semibold text-stone-900 mb-2">95%</h4>
+                            <p class="text-sm text-stone-500 uppercase tracking-wider">Visitor Satisfaction</p>
+                        </div>
+                    </div>
+
+                    <!-- Education Section -->
+                    <div class="mt-12 border-t border-stone-200 pt-12">
+                        <h3 class="font-serif text-3xl font-bold text-stone-900 mb-8">Education</h3>
+                        <div class="space-y-8">
+                            <div class="group relative pl-6 border-l-2 border-stone-200 hover:border-stone-900 transition-colors duration-300">
+                                <div class="absolute w-3 h-3 bg-stone-200 group-hover:bg-stone-900 rounded-full -left-[7px] top-1.5 transition-colors duration-300"></div>
+                                <h4 class="text-xl font-medium text-stone-900 transition-colors">Master of Arts in Emerging Technology for Future Workforce</h4>
+                                <p class="text-stone-600 font-light mt-1">The Education University of Hong Kong</p>
+                                <p class="text-sm text-stone-400 mt-2 font-medium tracking-wider">2025 — 2026</p>
+                            </div>
+                            <div class="group relative pl-6 border-l-2 border-stone-200 hover:border-stone-900 transition-colors duration-300">
+                                <div class="absolute w-3 h-3 bg-stone-200 group-hover:bg-stone-900 rounded-full -left-[7px] top-1.5 transition-colors duration-300"></div>
+                                <h4 class="text-xl font-medium text-stone-900 transition-colors">Bachelor of Fine Arts in Broadcasting and Hosting Art</h4>
+                                <p class="text-stone-600 font-light mt-1">Tianjin Normal University Jingu College</p>
+                                <p class="text-sm text-stone-400 mt-2 font-medium tracking-wider">2014 — 2018</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Certifications Section -->
+                    <div class="mt-12 border-t border-stone-200 pt-12">
+                        <h3 class="font-serif text-3xl font-bold text-stone-900 mb-8">Certifications</h3>
+                        <div class="space-y-8">
+                            <div class="group relative pl-6 border-l-2 border-stone-200 hover:border-stone-900 transition-colors duration-300">
+                                <div class="absolute w-3 h-3 bg-stone-200 group-hover:bg-stone-900 rounded-full -left-[7px] top-1.5 transition-colors duration-300"></div>
+                                <h4 class="text-xl font-medium text-stone-900 transition-colors">Generative AI Career Skills Foundation</h4>
+                                <p class="text-stone-600 font-light mt-1">Microsoft & LinkedIn</p>
+                                <p class="text-sm text-stone-400 mt-2 font-medium tracking-wider">Jan 2026</p>
+                            </div>
+                            <div class="group relative pl-6 border-l-2 border-stone-200 hover:border-stone-900 transition-colors duration-300">
+                                <div class="absolute w-3 h-3 bg-stone-200 group-hover:bg-stone-900 rounded-full -left-[7px] top-1.5 transition-colors duration-300"></div>
+                                <h4 class="text-xl font-medium text-stone-900 transition-colors">Introduction to Artificial Intelligence (AI)</h4>
+                                <p class="text-stone-600 font-light mt-1">LinkedIn Learning</p>
+                                <p class="text-sm text-stone-400 mt-2 font-medium tracking-wider">Dec 2025</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Work Section (Masonry Grid) -->
+    <section id="work" class="py-32 bg-stone-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="mb-20 text-center reveal">
+                <span class="text-sm font-medium tracking-widest uppercase text-stone-500 mb-4 block">Selected Experience</span>
+                <h2 class="font-serif text-5xl font-bold text-stone-900">A curated portfolio of<br><span class="italic font-light">events & operations</span>.</h2>
+            </div>
+
+            <!-- Masonry Container -->
+            <div class="masonry-grid">
+                
+                <!-- Project 1 -->
+                <div class="masonry-item reveal">
+                    <a href="#" class="block group cursor-pointer">
+                        <div class="overflow-hidden rounded-2xl bg-stone-200 relative">
+                            <!-- Overlay -->
+                            <div class="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/10 transition-colors duration-500 z-10 rounded-2xl"></div>
+                            <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=2000&auto=format&fit=crop" alt="Conference Hall" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                        </div>
+                        <div class="mt-5 mb-8">
+                            <h3 class="font-serif text-2xl font-semibold text-stone-900 group-hover:text-stone-600 transition-colors">City Brain Exhibition</h3>
+                            <p class="text-sm text-stone-500 mt-2 font-medium">VIP Hosting • Operations</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="masonry-item reveal">
+                    <a href="#" class="block group cursor-pointer">
+                        <div class="overflow-hidden rounded-2xl bg-stone-200 relative">
+                            <div class="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/10 transition-colors duration-500 z-10 rounded-2xl"></div>
+                            <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2000&auto=format&fit=crop" alt="Project Meeting" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                        </div>
+                        <div class="mt-5 mb-8">
+                            <h3 class="font-serif text-2xl font-semibold text-stone-900 group-hover:text-stone-600 transition-colors">IOCC Project Delivery</h3>
+                            <p class="text-sm text-stone-500 mt-2 font-medium">Project Management • Delivery</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="masonry-item reveal">
+                    <a href="#" class="block group cursor-pointer">
+                        <div class="overflow-hidden rounded-2xl bg-stone-200 relative">
+                            <div class="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/10 transition-colors duration-500 z-10 rounded-2xl"></div>
+                            <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=2000&auto=format&fit=crop" alt="Corporate Event" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                        </div>
+                        <div class="mt-5 mb-8">
+                            <h3 class="font-serif text-2xl font-semibold text-stone-900 group-hover:text-stone-600 transition-colors">Corporate Alliances</h3>
+                            <p class="text-sm text-stone-500 mt-2 font-medium">Event Planning • 300+ Events</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="masonry-item reveal">
+                    <a href="#" class="block group cursor-pointer">
+                        <div class="overflow-hidden rounded-2xl bg-stone-200 relative">
+                            <div class="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/10 transition-colors duration-500 z-10 rounded-2xl"></div>
+                            <img src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?q=80&w=2000&auto=format&fit=crop" alt="Live Music Event" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                        </div>
+                        <div class="mt-5 mb-8">
+                            <h3 class="font-serif text-2xl font-semibold text-stone-900 group-hover:text-stone-600 transition-colors">Dongsheng Music Festival</h3>
+                            <p class="text-sm text-stone-500 mt-2 font-medium">Live Event Hosting • Presenter</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Project 5 -->
+                <div class="masonry-item reveal">
+                    <a href="#" class="block group cursor-pointer">
+                        <div class="overflow-hidden rounded-2xl bg-stone-200 relative">
+                            <div class="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/10 transition-colors duration-500 z-10 rounded-2xl"></div>
+                            <img src="https://images.unsplash.com/photo-1507676184212-d0330a156f97?q=80&w=2000&auto=format&fit=crop" alt="Theater script reading" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                        </div>
+                        <div class="mt-5 mb-8">
+                            <h3 class="font-serif text-2xl font-semibold text-stone-900 group-hover:text-stone-600 transition-colors">Tianjin People's Art Theatre</h3>
+                            <p class="text-sm text-stone-500 mt-2 font-medium">Script Reading • Performance</p>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Project 6 -->
+                <div class="masonry-item reveal">
+                    <a href="#" class="block group cursor-pointer">
+                        <div class="overflow-hidden rounded-2xl bg-stone-200 relative">
+                            <div class="absolute inset-0 bg-stone-900/0 group-hover:bg-stone-900/10 transition-colors duration-500 z-10 rounded-2xl"></div>
+                            <img src="https://images.unsplash.com/photo-1515169067868-5387ec356754?q=80&w=2000&auto=format&fit=crop" alt="Corporate Gala" class="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                        </div>
+                        <div class="mt-5 mb-8">
+                            <h3 class="font-serif text-2xl font-semibold text-stone-900 group-hover:text-stone-600 transition-colors">Corporate Galas</h3>
+                            <p class="text-sm text-stone-500 mt-2 font-medium">Dongsheng BoZhan Annual Meeting</p>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+            
+            <div class="mt-16 text-center reveal">
+                <a href="#" class="inline-flex items-center gap-2 text-stone-900 font-medium hover:text-stone-600 transition-colors pb-1 border-b border-stone-900 hover:border-stone-600">
+                    View Complete Resume <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-32 bg-stone-900 text-stone-50 relative overflow-hidden">
+        <!-- Abstract dark background shapes -->
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-stone-800 rounded-l-[100px] opacity-20 transform translate-x-1/4"></div>
+        
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="reveal">
+                    <h2 class="font-serif text-5xl md:text-7xl font-bold mb-6 leading-tight">Let's create something <span class="italic font-light text-stone-400">extraordinary.</span></h2>
+                    <p class="text-xl text-stone-400 font-light mb-12 max-w-lg">
+                        Currently based between Hong Kong and Beijing. Reach out to discuss hosting, operational leadership, or emerging tech collaborations.
+                    </p>
+                    <a href="mailto:roversun779@gmail.com" class="group inline-flex items-center gap-4 text-2xl md:text-3xl lg:text-4xl font-serif text-white hover:text-stone-300 transition-colors break-all">
+                        roversun779@gmail.com 
+                        <span class="w-12 h-12 rounded-full bg-stone-800 flex-shrink-0 flex items-center justify-center group-hover:bg-stone-700 transition-colors">
+                            <i data-lucide="arrow-up-right" class="w-6 h-6"></i>
+                        </span>
+                    </a>
+                </div>
+                
+                <!-- Minimal Contact Details -->
+                <div class="lg:pl-20 space-y-12 reveal delay-100">
+                    <div>
+                        <h4 class="text-sm uppercase tracking-widest text-stone-500 mb-4 font-medium">Location</h4>
+                        <p class="text-lg text-stone-300">Hong Kong • Beijing<br>Available Worldwide</p>
+                    </div>
+                    <div>
+                        <h4 class="text-sm uppercase tracking-widest text-stone-500 mb-4 font-medium">Phone</h4>
+                        <p class="text-lg text-stone-300">+852 4690 7446</p>
+                    </div>
+                    <div>
+                        <h4 class="text-sm uppercase tracking-widest text-stone-500 mb-4 font-medium">Socials</h4>
+                        <ul class="space-y-3">
+                            <li><a href="#" class="text-lg text-stone-300 hover:text-white transition-colors flex items-center gap-2">LinkedIn <i data-lucide="external-link" class="w-4 h-4 text-stone-600"></i></a></li>
+                            <li><a href="#" class="text-lg text-stone-300 hover:text-white transition-colors flex items-center gap-2">Instagram <i data-lucide="external-link" class="w-4 h-4 text-stone-600"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-stone-900 text-stone-500 py-8 border-t border-stone-800">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-sm">&copy; 2026 SUN Ruwan (Rover). All rights reserved.</p>
+            <div class="flex gap-6 text-sm">
+                <a href="#" class="hover:text-stone-300 transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-stone-300 transition-colors">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Initialize Scripts -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('shadow-sm', 'py-3');
+                navbar.classList.remove('py-4');
+            } else {
+                navbar.classList.remove('shadow-sm', 'py-3');
+                navbar.classList.add('py-4');
+            }
+        });
+
+        // Intersection Observer for scroll animations (Reveal effect)
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Run once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach((element) => {
+            observer.observe(element);
+        });
+    </script>
+</body>
+</html>
